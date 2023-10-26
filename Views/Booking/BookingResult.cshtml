@@ -1,0 +1,43 @@
+﻿@model BookingResultViewModel
+
+
+<h3 class="offset-3">Finish your order. Your booking details: </h3>
+
+<div class="row">
+    <form method="post" class="offset-4">
+        <div hidden class="m-3">
+            <label asp-for="BookingId">Name</label>
+            <input asp-for="BookingId" class="form-control" />
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <img src="~/images/pexels-pixabay-164595.jpg" />
+            </div>
+            <div class="card-footer">
+                <div style="display:inline-flex">
+                    <h5 class="mr-2">@Model.RoomNumber</h5>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 mt-3">
+            <label asp-for="CheckIn">
+                <b>From: </b>
+            </label>
+            <span>@Model.CheckIn</span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CheckOut">
+                <b>To: </b>
+            </label>
+            <span>@Model.CheckOut</span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TotalPrice">
+                <b>Total Price: </b>
+            </label>
+            <span style="color:forestgreen">@Model.TotalPrice$</span>
+        </div>
+        <button class="btn btn-outline-success" asp-controller="Booking" asp-action="FinishBooking" asp-route-id="@Model.BookingId">Confirm</button>
+        <button class="btn btn-outline-danger" asp-controller="Booking" asp-action="CancelBooking" asp-route-id="@Model.BookingId">Cancel</button>
+    </form>
+</div>

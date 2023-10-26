@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Room>
+
+
+<div class="row">
+    @foreach (var room in Model)
+    {
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <a asp-controller="Booking" asp-action="BookRoom" asp-route-roomId="@room.RoomId">
+                        <img src="~/images/pexels-pixabay-164595.jpg" />
+                    </a>
+                </div>
+                <div class="card-footer">
+                    <div style="display:inline-flex">
+                        <h5 class="mr-2">Room number: @room.RoomNumber</h5>
+                        @if (room.IsAvailable)
+                        {
+                            <p style="color: limegreen; align-content:center">&bull;Available</p>
+                        }
+                        else
+                        {
+                            <p style="color:red; inline-size:auto">&bull;Not Available</p>
+                        }
+                    </div>
+                    <br />
+                    <a class="btn btn-dark" asp-controller="Booking" asp-action="BookRoom" asp-route-roomId="@room.RoomId">Details</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <a class="btn btn-dark" asp-controller="Rooms" asp-action="ModifyRoom" asp-route-id="@room.RoomId">Edit</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

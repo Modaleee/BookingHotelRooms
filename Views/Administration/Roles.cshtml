@@ -1,0 +1,26 @@
+﻿@model IEnumerable<IdentityRole>
+
+<a asp-action="createRole" asp-controller="administration"
+   class="btn btn-outline-dark offset-sm-3">Add New Role</a>
+
+<div class="row">
+    @foreach(var role in Model)
+     {
+
+    <div class="col-sm-6 offset-sm-3 mt-4">
+        <div class="card">
+            <div class="card-header">
+                <label>Role ID : @role.Id</label>
+            </div>
+            <div class="card-body">
+                <h4> @role.Name</h4>
+            </div>
+            <div class="card-footer">
+                <a asp-action="UsersInRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-outline-dark">See Users</a>
+                <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-outline-dark">Edit Role</a>
+            </div>
+        </div>
+    </div>
+     }
+
+</div>

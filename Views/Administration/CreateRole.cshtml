@@ -1,0 +1,28 @@
+﻿@model CreateRoleViewModel
+
+
+<h3 class="col-sm-4 offset-sm-4 ">Create a new Role</h3>
+
+
+<div class="row">
+    <div class="col-sm-4 offset-sm-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mt-4">
+                <label asp-for="RoleName"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-dark">Create</button>
+                <a class="btn btn-danger" asp-controller="Administration" asp-action="Roles">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}

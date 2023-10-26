@@ -1,0 +1,29 @@
+﻿@model Room
+
+<form class="col-md-4 offset-md-4" method="post" enctype="multipart/form-data">
+
+    <div style="padding:4px">
+        <label asp-for="RoomNumber">Room Number: </label>
+        <input class="form-control" asp-for="RoomNumber" />
+        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+    </div>
+    <div style="padding:4px">
+        <label asp-for="Description">Description: </label>
+        <input class="form-control" asp-for="Description" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3" style="padding:4px">
+        <label asp-for="Price">Price: </label>
+        <input class="form-control" asp-for="Price" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-dark">Create</button>
+        <a asp-controller="Rooms" asp-action="Index" class="btn btn-danger">Cancel</a>
+    </div>
+</form>
+
+@section Scripts{
+
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}

@@ -1,0 +1,31 @@
+﻿@model EditUserViewModel
+
+
+<div class="col-sm-4 offset-sm-4">
+    <h3>User Update</h3>
+</div>
+
+<div class="col-sm-4 offset-sm-4">
+    <form method="post">
+        <div class="m-3">
+            <label asp-for="UserName">Name</label>
+            <input readonly asp-for="UserName" class="form-control" />
+        </div>
+        <div class="m-3">
+            @Html.LabelFor(m => m.SelectedUserRoleId)
+            </br>
+            @Html.DropDownListFor(m => m.SelectedUserRoleId, Model.Roles, new { @class = "form-control" })
+        </div>
+
+        <div class="m-3">
+            <button type="submit" class="btn btn-outline-dark">Update</button>
+            <a asp-controller="Administration" asp-action="Roles" class="btn btn-danger">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}
+

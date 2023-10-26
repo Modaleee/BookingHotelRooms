@@ -1,0 +1,35 @@
+﻿@model UsersInRoleViewModel
+
+
+<div class="row">
+    <div class="col-sm-6 offset-sm-3">
+        <div class="card">
+            <div class="card-header">
+                <label>@Model.Role</label>
+            </div>
+            <div class="card-body">
+                <span>
+                    <b>Username</b>
+                </span>
+                <table class="card-table table mt-2">
+                    @foreach (var user in Model.Users)
+                    {
+                    <tbody>
+                        <tr>
+                            <td>
+                                @user.UserName
+                            </td>
+                            <td>
+                                <a asp-controller="Administration" asp-action="EditUserRole" asp-route-id="@user.Id">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    }
+                </table>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Roles" asp-controller="Administration" class="btn btn-danger">Back</a>
+            </div>
+        </div>
+    </div>
+</div>

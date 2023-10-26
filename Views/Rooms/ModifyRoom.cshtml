@@ -1,0 +1,37 @@
+﻿@model ModifyRoomViewModel
+
+<form enctype="multipart/form-data" method="post" class="col-md-4 offset-md-4">
+    <div>
+        <input type="hidden" asp-for="RoomId" />
+    </div>
+    <div class="mb-3">
+        <label class="mr-2" asp-for="RoomNumber"> Number: </label>
+        <input class="form-control" asp-for="RoomNumber" />
+        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description"> Description: </label>
+        <input asp-for="Description" class="form-control"/>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price"> Price: </label>
+        <input asp-for="Price" class="form-control"/>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IsAvailable"> Available: </label>
+        <input asp-for="IsAvailable" />
+        <span asp-validation-for="IsAvailable" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-dark">Update</button>
+        <a asp-controller="Rooms" asp-action="Index" class="btn btn-danger">Cancel</a>
+        <button type="submit" asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.RoomId" class="btn btn-dark"> Delete</button>
+    </div>
+</form>
+
+@section Scripts{
+
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}
