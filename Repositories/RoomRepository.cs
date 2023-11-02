@@ -15,22 +15,31 @@ namespace BookingHotelRooms.Repositories
         {
             _context = context;
         }
-        public async Task AddRoom(Room room)
-        {
-            await _context.Rooms.AddAsync(room);
-            await _context.SaveChangesAsync();
-        }
+
+
         public async Task<IEnumerable<Room>> GetAllRooms()
         {
             var rooms = _context.Rooms;
             return await rooms.ToListAsync();
         }
 
-        public async Task<Room> GetRoom(int id)
+        public async Task<Room> GetRoomById(int id)
         {
             var room = await _context.Rooms.FirstOrDefaultAsync(x => x.RoomId == id);
             return room;
         }
+        public async Task<Room> GetRoomByNumber(int number)
+        {
+            return await _context.Rooms.FirstOrDefaultAsync(x => x.RoomNumber == number);
+
+        }
+
+        public async Task CreateRoom(Room room)
+        {
+            await _context.Rooms.AddAsync(room);
+            await _context.SaveChangesAsync();
+        }
+
 
         public async Task UpdateRoom(Room room)
         {
@@ -43,28 +52,6 @@ namespace BookingHotelRooms.Repositories
             var room = await _context.Rooms.FindAsync(id);
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
-        }
-        public async Task ChangeRoomAvailability(int roomId)
-        {
-            var room = await GetRoom(roomId);
-
-            room.IsAvailable = false;
-
-            await UpdateRoom(room);
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<bool> CheckForRoomNumberDuplicates(int number)
-        {
-            if (await _context.Rooms.FirstOrDefaultAsync(x=> x.RoomNumber == number) != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

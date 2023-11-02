@@ -1,6 +1,8 @@
 using BookingHotelRooms.Models;
 using BookingHotelRooms.Repositories;
 using BookingHotelRooms.Repositories.IRepository;
+using BookingHotelRooms.Services;
+using BookingHotelRooms.Services.IServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -33,9 +35,11 @@ namespace BookingHotelRooms
                .AddEntityFrameworkStores<AppDbContext>()
                .AddDefaultTokenProviders();
 
-            services.AddSession();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
+
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IBookingService, BookingService>();
 
             services.AddControllersWithViews();
 
@@ -56,8 +60,6 @@ namespace BookingHotelRooms
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseSession();
 
             app.UseAuthentication();
 

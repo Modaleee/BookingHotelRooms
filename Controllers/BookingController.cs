@@ -2,6 +2,8 @@
 using BookingHotelRooms.Models.ViewModels;
 using BookingHotelRooms.Repositories;
 using BookingHotelRooms.Repositories.IRepository;
+using BookingHotelRooms.Services;
+using BookingHotelRooms.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,45 +16,25 @@ namespace BookingHotelRooms.Controllers
 {
     public class BookingController : Controller
     {
-        private readonly IBookingRepository _bookingRepository;
-        private readonly IRoomRepository _roomRepository;
+        private readonly IBookingService _bookingService;
 
-        public BookingController(IBookingRepository bookingRepository, IRoomRepository roomRepository)
+        public BookingController(IBookingService bookingService)
         {
-            _bookingRepository = bookingRepository;
-            _roomRepository = roomRepository;
+            _bookingService = bookingService;
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetBookings()
         {
-            var bookings = await _bookingRepository.GetAllBookings();
-            var model= bookings.OrderByDescending(x => x.OrderDate).GroupBy(x => x.ApplicationUser.UserName); ;
-
-            if (!HttpContext.User.IsInRole("Admin"))
-            {
-                var user = await _bookingRepository.GetContextUser(HttpContext);
-                model = bookings.Where(x => x.AppUserId == user.Id).OrderByDescending(x => x.OrderDate).GroupBy(x => x.ApplicationUser.UserName);
-            }
-
+            var model = await _bookingService.GetAllBookingsAsync(HttpContext);
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> BookRoom(int roomId)
         {
-            var room = await _roomRepository.GetRoom(roomId);
-            var model = new BookingDetailsViewModel
-            {
-                RoomId = room.RoomId,
-                RoomNumber = room.RoomNumber,
-                IsAvailable = room.IsAvailable,
-                Description = room.Description,
-                Price = room.Price,
-                CheckIn = DateTime.Today,
-                CheckOut = DateTime.Today,
-            };
+            var model = await _bookingService.BookRoomAsync(roomId);
 
             return View(model);
         }
@@ -69,25 +51,11 @@ namespace BookingHotelRooms.Controllers
 
             if (ModelState.IsValid)
             {
-                var room = await _roomRepository.GetRoom(booking.RoomId);
-                var user = await _bookingRepository.GetContextUser(HttpContext);
+                string id = Guid.NewGuid().ToString();
+              
+                await _bookingService.AddBookingAsync(booking, HttpContext, id);
 
-                var model = new Booking
-                {
-                    Room = room,
-                    RoomId = booking.RoomId,
-                    BookingId = Guid.NewGuid().ToString(),
-                    CheckIn = booking.CheckIn,
-                    CheckOut = booking.CheckOut,
-                    OrderDate = DateTime.Now,
-                    TotalPrice = days * room.Price,
-                    ApplicationUser = user,
-                    AppUserId = user.Id,
-                    BookingStatus = Status.Draft
-                };
-                await _bookingRepository.CreateBooking(model);
-
-                return RedirectToAction("BookingResult", "Booking", new { bookingId = model.BookingId });
+                return RedirectToAction("BookingResult", "Booking", new { bookingId = id });
             }
 
             return View(booking);
@@ -97,16 +65,7 @@ namespace BookingHotelRooms.Controllers
         [HttpGet]
         public async Task<IActionResult> BookingResult(string bookingId)
         {
-            var booking = await _bookingRepository.GetBooking(bookingId);
-
-            var model = new BookingResultViewModel
-            {
-                BookingId= bookingId,
-                RoomNumber = booking.Room.RoomNumber,
-                CheckIn = booking.CheckIn,
-                CheckOut = booking.CheckOut,
-                TotalPrice = booking.TotalPrice
-            };
+            var model = await _bookingService.BookingResultAsync(bookingId);
 
             return View(model);
 
@@ -116,20 +75,20 @@ namespace BookingHotelRooms.Controllers
         [HttpPost]
         public async Task<IActionResult> FinishBooking(BookingResultViewModel bookingResult)
         {
-            var booking = await _bookingRepository.GetBooking(bookingResult.BookingId);
-            booking.BookingStatus = Status.Completed;
+            if (ModelState.IsValid)
+            {
+                await _bookingService.UpdateBookingAsync(bookingResult);
+                return RedirectToAction("Index", "Rooms");
+            }
 
-            await _bookingRepository.UpdateBookingUser(booking);
-            await _roomRepository.ChangeRoomAvailability(booking.RoomId);
-
-            return RedirectToAction("Index", "Rooms");
+            return View(bookingResult);
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CancelBooking(string bookingId)
         {
-            await _bookingRepository.DeleteBooking(bookingId);
+            await _bookingService.RemoveBookingAsync(bookingId);
 
             return RedirectToAction("Index", "Rooms");
         }

@@ -9,11 +9,10 @@ namespace BookingHotelRooms.Repositories
     public interface IRoomRepository
     {
         Task<IEnumerable<Room>> GetAllRooms();
-        Task AddRoom(Room room);
+        Task<Room> GetRoomById(int id);
+        Task<Room> GetRoomByNumber(int number);
+        Task CreateRoom(Room room);
         Task UpdateRoom(Room room);
         Task DeleteRoom(int id);
-        Task<Room> GetRoom(int id);
-        Task ChangeRoomAvailability(int roomId);
-        Task<bool> CheckForRoomNumberDuplicates(int number);
     }
 }

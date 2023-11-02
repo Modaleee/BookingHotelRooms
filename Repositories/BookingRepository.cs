@@ -25,7 +25,7 @@ namespace BookingHotelRooms.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Booking> GetBooking(string id)
+        public async Task<Booking> GetBookingById(string id)
         {
             var booking = await _context.Bookings.Include(x => x.Room)
                 .FirstOrDefaultAsync(x => x.BookingId == id);
@@ -33,15 +33,14 @@ namespace BookingHotelRooms.Repositories
             return booking;
         }
 
-        public async Task<AppUser> GetContextUser(HttpContext httpContext)
+        public async Task<AppUser> GettUserByName(string user)
         {
-            //add null case
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == httpContext.User.Identity.Name);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user);
 
-            return user;
+            return dbUser;
         }
 
-        public async Task UpdateBookingUser(Booking booking)
+        public async Task UpdateBooking(Booking booking)
         {
             _context.Bookings.Update(booking);
             await _context.SaveChangesAsync();

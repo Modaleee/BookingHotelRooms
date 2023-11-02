@@ -1,5 +1,4 @@
 ﻿using BookingHotelRooms.Models;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,10 @@ namespace BookingHotelRooms.Repositories.IRepository
     public interface IBookingRepository
     {
         Task<IEnumerable<Booking>> GetAllBookings();
-        Task<Booking> GetBooking(string id);
+        Task<Booking> GetBookingById(string id);
         Task CreateBooking(Booking booking);
-        Task<AppUser> GetContextUser(HttpContext httpContext);
-        Task UpdateBookingUser(Booking booking);
+        Task<AppUser> GettUserByName(string user);
+        Task UpdateBooking(Booking booking);
         Task DeleteBooking(string id);
     }
 }

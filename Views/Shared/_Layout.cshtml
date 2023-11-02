@@ -37,9 +37,18 @@
                             <ul class="navbar-nav ml-auto">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Booking" asp-action="GetBookings">Your bookings</a>
-                                    </li>
+                                    if (User.IsInRole("Admin"))
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Booking" asp-action="GetBookings">All Bookings</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                       <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Booking" asp-action="GetBookings">Your Bookings</a>
+                                        </li>
+                                    }
                                     <li class="nav-item">
                                         <form method="post" asp-controller="Account" asp-action="Logout" class="mt-2">
                                             <button type="submit" style="width:auto"

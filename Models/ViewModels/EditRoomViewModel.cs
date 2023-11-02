@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingHotelRooms.Models.ViewModels
 {
-    public class ModifyRoomViewModel
+    public class EditRoomViewModel
     {
         public int RoomId { get; set; }
 

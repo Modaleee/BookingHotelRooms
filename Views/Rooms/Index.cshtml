@@ -28,7 +28,7 @@
                     @if (User.IsInRole("Admin"))
                     {
 
-                        <a class="btn btn-dark" asp-controller="Rooms" asp-action="ModifyRoom" asp-route-id="@room.RoomId">Edit</a>
+                        <a class="btn btn-dark" asp-controller="Rooms" asp-action="EditRoom" asp-route-id="@room.RoomId">Edit</a>
                     }
                 </div>
             </div>
