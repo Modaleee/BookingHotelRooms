@@ -9,20 +9,14 @@ using System.Threading.Tasks;
 
 namespace BookingHotelRooms.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : GenericRepository<Booking>, IBookingRepository
     {
 
         private readonly AppDbContext _context;
 
-        public BookingRepository(AppDbContext context)
+        public BookingRepository(AppDbContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task CreateBooking(Booking booking)
-        {
-            await _context.Bookings.AddAsync(booking);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Booking> GetBookingById(string id)
@@ -38,19 +32,6 @@ namespace BookingHotelRooms.Repositories
             var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user);
 
             return dbUser;
-        }
-
-        public async Task UpdateBooking(Booking booking)
-        {
-            _context.Bookings.Update(booking);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteBooking(string id)
-        {
-            var booking = await _context.Bookings.FindAsync(id);
-            _context.Bookings.Remove(booking);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Booking>> GetAllBookings()

@@ -68,7 +68,7 @@ namespace BookingHotelRooms.Services
                 AppUserId = user.Id,
                 BookingStatus = Status.Draft
             };
-            await _bookingRepository.CreateBooking(model);
+            await _bookingRepository.CreateEntity(model);
         }
 
         public async Task UpdateBookingAsync(BookingResultViewModel bookingResult)
@@ -76,14 +76,15 @@ namespace BookingHotelRooms.Services
             var booking = await FindBookingAsync(bookingResult.BookingId);
             booking.BookingStatus = Status.Completed;
 
-            await _bookingRepository.UpdateBooking(booking);
+            await _bookingRepository.UpdateEntity(booking);
             await ChangeRoomAvailabilityAsync(booking.RoomId);
         }
 
 
         public async Task RemoveBookingAsync(string id)
         {
-            await  _bookingRepository.DeleteBooking(id);
+            var booking = await _bookingRepository.GetBookingById(id);
+            await  _bookingRepository.DeleteEntity(booking);
         }
 
         public async Task<BookingResultViewModel> BookingResultAsync(string bookingId)
@@ -122,7 +123,7 @@ namespace BookingHotelRooms.Services
             var room = await _roomRepository.GetRoomById(roomId);
 
             room.IsAvailable = false;
-            await _roomRepository.UpdateRoom(room);
+            await _roomRepository.UpdateEntity(room);
         }
     }
 }

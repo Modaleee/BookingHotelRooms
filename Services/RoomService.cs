@@ -20,7 +20,7 @@ namespace BookingHotelRooms.Services
 
         public async Task<IEnumerable<Room>> GetAllRoomsAsync()
         {
-            return await _roomRepository.GetAllRooms();
+            return await _roomRepository.GetAllEntities();
         }
 
         public async Task<Room> FindRoomAsync(int id)
@@ -38,7 +38,7 @@ namespace BookingHotelRooms.Services
                 Price = room.Price,
                 RoomNumber = room.RoomNumber
             };
-            await _roomRepository.CreateRoom(model);
+            await _roomRepository.CreateEntity(model);
         }
 
         public async Task EditRoomAsync(EditRoomViewModel model)
@@ -50,12 +50,13 @@ namespace BookingHotelRooms.Services
             room.IsAvailable = model.IsAvailable;
             room.Price = model.Price;
 
-            await _roomRepository.UpdateRoom(room);
+            await _roomRepository.UpdateEntity(room);
         }
 
         public async Task RemoveRoomAsync(int id)
         {
-            await _roomRepository.DeleteRoom(id);
+            var room = await _roomRepository.GetRoomById(id);
+            await _roomRepository.DeleteEntity(room);
         }
 
         public async Task<EditRoomViewModel> EditRoomAsync(int id)
