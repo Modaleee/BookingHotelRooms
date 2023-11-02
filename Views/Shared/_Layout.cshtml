@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - BookingHotelRooms</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
@@ -45,7 +46,7 @@
                                     }
                                     else
                                     {
-                                       <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link" asp-controller="Booking" asp-action="GetBookings">Your Bookings</a>
                                         </li>
                                     }
@@ -92,6 +93,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css">
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

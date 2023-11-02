@@ -1,6 +1,11 @@
 ﻿@model BookingDetailsViewModel
 
 
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="~/css/booking.css" rel="stylesheet" />
+}
+
 <form method="post">
     <div class="row">
         <div class="col-4">
@@ -22,7 +27,7 @@
             </div>
         </div>
         <div class="col-6 offset-2">
-            <div class="mb-3">
+    @*         <div class="mb-3">
                 <label asp-for="CheckIn"> From: </label>
                 <input asp-for="CheckIn" class="form-control" />
                 <span asp-validation-for="CheckIn" class="text-danger"></span>
@@ -31,8 +36,13 @@
                 <label asp-for="CheckOut"> To: </label>
                 <input asp-for="CheckOut" class="form-control" />
                 <span asp-validation-for="CheckOut" class="text-danger"></span>
-            </div>
+            </div> *@
+
+            <input asp-for="CheckIn" type="hidden"/>
+            <input asp-for="CheckOut" type="hidden" />
             <div asp-validation-summary="All" class="text-danger"></div>
+
+
             @if (Model.IsAvailable)
             {
                 <input type="hidden" asp-for="IsAvailable" />
@@ -52,7 +62,30 @@
     </div>
 </form>
 
+
+<input class="flatpickr flatpickr-input active" type="text" placeholder="Select Date.." readonly="readonly">
+
 @section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  
+    <script>
+        var disabledDates = @Html.Raw(Json.Serialize(Model.MyBookings));
+        $(document).ready(function () {
+            $('.flatpickr').flatpickr({
+                dateFormat: "Y-m-d",
+                disable: disabledDates, // Pass the list of disabled dates
+                mode: "range",
+                onChange: function (selectedDates, dateStr, instance) {
+                    // Your onChange event handler
+                },
+                onClose: function (selectedDates, dateStr, instance) {
+                    $('#CheckIn').val(selectedDates[0].toISOString());
+                    $('#CheckOut').val(selectedDates[1].toISOString());
+                },
+            });
+        });
+    </script>
+    
 
     @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
 }

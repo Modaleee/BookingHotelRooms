@@ -35,6 +35,19 @@ namespace BookingHotelRooms.Controllers
         public async Task<IActionResult> BookRoom(int roomId)
         {
             var model = await _bookingService.BookRoomAsync(roomId);
+            model.MyBookings = new List<DateIterval> {
+           new DateIterval()
+           {
+               From = new DateTime(2023, 11, 2, 12, 30, 0),
+               To =  new DateTime(2023, 11, 4, 12, 30, 0)
+           },
+            new DateIterval()
+           {
+               From = new DateTime(2023, 11, 6, 12, 30, 0),
+               To =  new DateTime(2023, 11, 10, 12, 30, 0)
+           }
+       };
+
 
             return View(model);
         }
