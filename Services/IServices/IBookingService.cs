@@ -13,7 +13,7 @@ namespace BookingHotelRooms.Services.IServices
         Task<Booking> FindBookingAsync(string id);
         Task<IEnumerable<IGrouping<string, Booking>>> GetAllBookingsAsync(HttpContext httpContext);
         Task<AppUser> GetContextUserAsync(HttpContext httpContext);
-        Task AddBookingAsync(BookingDetailsViewModel booking, HttpContext context, string id);
+        Task<Booking> AddBookingAsync(BookingDetailsViewModel booking, HttpContext context);
         Task UpdateBookingStatusAsync(BookingResultViewModel booking);
         Task RemoveBookingAsync(string id);
         Task<BookingResultViewModel> BookingResultAsync(string bookingId);

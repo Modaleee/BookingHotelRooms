@@ -43,19 +43,18 @@ namespace BookingHotelRooms.Controllers
         [HttpPost]
         public async Task<IActionResult> BookRoom(BookingDetailsViewModel booking)
         {
+
             var days = (booking.CheckOut - booking.CheckIn).Days;
-            if (days < 1)
+            if (days <= 0)
             {
                 ModelState.AddModelError("Days", "You should book at least one day to proceed!");
             }
 
             if (ModelState.IsValid)
-            {
-                string id = Guid.NewGuid().ToString();
-              
-                await _bookingService.AddBookingAsync(booking, HttpContext, id);
+            {             
+                var model = await _bookingService.AddBookingAsync(booking, HttpContext);
 
-                return RedirectToAction("BookingResult", "Booking", new { bookingId = id });
+                return RedirectToAction("BookingResult", "Booking", new { bookingId = model.BookingId });
             }
 
             return View(booking);

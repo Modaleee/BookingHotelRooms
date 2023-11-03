@@ -12,5 +12,6 @@ namespace BookingHotelRooms.Repositories.IRepository
         Task<IEnumerable<Booking>> GetAllBookings();
         Task<Booking> GetBookingById(string id);
         Task<AppUser> GettUserByName(string user);
+        Task<IEnumerable<Booking>> GetBookingByRoomId(int roomId);
     }
 }

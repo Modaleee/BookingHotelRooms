@@ -36,8 +36,23 @@ namespace BookingHotelRooms.Repositories
 
         public async Task<IEnumerable<Booking>> GetAllBookings()
         {
-            var bookings = _context.Bookings.Include(x=>x.Room).Include(x=>x.ApplicationUser);
-            return await bookings.ToListAsync();
+            var bookings = _context.Bookings
+                .Include(x=>x.Room)
+                .Include(x=>x.ApplicationUser)
+                .ToListAsync();
+
+            return await bookings;
+        }
+
+        public async Task<IEnumerable<Booking>> GetBookingByRoomId(int roomId)
+        {
+            var bookings = await _context.Bookings
+                .Include(x => x.Room)
+                .Include(x => x.ApplicationUser)
+                .Where(x => x.RoomId == roomId)
+                .ToListAsync();
+
+            return bookings;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace BookingHotelRooms.Services
             return await _bookingRepository.GettUserByName(user);
         }
 
-        public async Task AddBookingAsync(BookingDetailsViewModel booking, HttpContext context, string id)
+        public async Task<Booking> AddBookingAsync(BookingDetailsViewModel booking, HttpContext context)
         {
             var room = await _roomRepository.GetRoomById(booking.RoomId);
             var days = (booking.CheckOut - booking.CheckIn).Days;
@@ -59,7 +59,7 @@ namespace BookingHotelRooms.Services
             {
                 Room = room,
                 RoomId = booking.RoomId,
-                BookingId = id,
+                BookingId = Guid.NewGuid().ToString(),
                 CheckIn = booking.CheckIn.ToLocalTime(),
                 CheckOut = booking.CheckOut.ToLocalTime(),
                 OrderDate = DateTime.Now,
@@ -69,6 +69,8 @@ namespace BookingHotelRooms.Services
                 BookingStatus = Status.Draft
             };
             await _bookingRepository.CreateEntity(model);
+
+            return model;
         }
 
         public async Task UpdateBookingStatusAsync(BookingResultViewModel bookingResult)
@@ -110,21 +112,15 @@ namespace BookingHotelRooms.Services
                 RoomId = room.RoomId,
                 RoomNumber = room.RoomNumber,
                 Description = room.Description,
-                Price = room.Price,
-                CheckIn = DateTime.Today,
-                CheckOut = DateTime.Today,
+                Price = room.Price
             };
 
-            var bookings = await _bookingRepository.GetAllBookings();
-            var roomBookings = bookings.Where(x => x.RoomId == roomId);
-
-            foreach (var item in roomBookings)
+            var roomBookings = await _bookingRepository.GetBookingByRoomId(roomId);
+            model.RoomBookings = roomBookings.Select(x => new DateInterval()
             {
-                model.RoomBookings.Add(new DateInterval() {
-                    From = item.CheckIn, 
-                    To = item.CheckOut
-                });
-            }
+                From = x.CheckIn,
+                To = x.CheckOut
+            }).ToList();
 
             return model;
         }
