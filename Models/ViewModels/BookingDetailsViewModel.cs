@@ -8,12 +8,17 @@ namespace BookingHotelRooms.Models.ViewModels
 {
     public class BookingDetailsViewModel
     {
-        public List<DateIterval> MyBookings { get; set; }
+
+        public BookingDetailsViewModel()
+        {
+            RoomBookings = new List<DateInterval>();
+        }
+
+        public List<DateInterval> RoomBookings { get; set; }
         public int RoomId { get; set; }
         public int RoomNumber { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public bool IsAvailable { get; set; }
         [Required]
         public DateTime CheckIn { get; set; }
         [Required]
@@ -21,7 +26,7 @@ namespace BookingHotelRooms.Models.ViewModels
         public decimal TotalPrice { get; set; }
     }
 
-    public class DateIterval
+    public class DateInterval
     {
         public DateTime From { get; set; }
         public DateTime To { get; set; }

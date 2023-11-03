@@ -22,9 +22,6 @@ namespace BookingHotelRooms.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Room>()
-                .Property(b => b.IsAvailable)
-                .HasDefaultValue("true");
 
             modelBuilder
                 .Entity<Booking>()
@@ -37,24 +34,24 @@ namespace BookingHotelRooms.Models
                     RoomNumber = 1,
                     Description = "Our Deln/Large Double also provides views over landscaped gardens. It has a seating area, digital safe and mini fridge. This room can be configured with either 2 single beds or zip and linked to provide a large double bed.",
                     Price = 17.99m, 
-                    IsAvailable=false },
+                    },
                 new Room { RoomId = 2,
                     RoomNumber = 2, 
                     Description = "As our smallest budget rooms, the Compact bedrooms are suited for single occupancy or short-stay double occupancy as they have limited space and storage.",
-                    Price = 22.99m, IsAvailable=true },
+                    Price = 22.99m,  },
                 new Room { RoomId = 3, 
                     RoomNumber = 100, 
                     Description = "Our king size four poster provides views over landscaped gardens. It has a seating area, ample storage, digital safe and mini fridge.", 
-                    Price = 29.99m, IsAvailable=false },
+                    Price = 29.99m, },
                 new Room { RoomId = 4, 
                     RoomNumber = 22, 
                     Description = "Our king size sleigh bedded also provides views over landscaped gardens. It has ample storage, a seating area, digital safe and mini fridge.", 
                     Price = 100.99m, 
-                    IsAvailable=true },
+                     },
                 new Room { RoomId = 5, 
                     RoomNumber = 5, 
                     Description = "Our Deluxe king size room has a seating area, ample storage, digital safe and mini fridge. This room can also be configured with an extra roll-away bed for families of 3.", 
-                    Price = 80.99m, IsAvailable=true }
+                    Price = 80.99m,  }
                 );
 
             //seeding appUser table

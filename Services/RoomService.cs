@@ -47,7 +47,6 @@ namespace BookingHotelRooms.Services
             room.RoomId = model.RoomId;
             room.RoomNumber = model.RoomNumber;
             room.Description = model.Description;
-            room.IsAvailable = model.IsAvailable;
             room.Price = model.Price;
 
             await _roomRepository.UpdateEntity(room);
@@ -67,7 +66,6 @@ namespace BookingHotelRooms.Services
                 RoomId = room.RoomId,
                 RoomNumber = room.RoomNumber,
                 Description = room.Description,
-                IsAvailable = room.IsAvailable,
                 Price = room.Price
             };
             return model;

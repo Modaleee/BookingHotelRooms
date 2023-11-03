@@ -14,10 +14,9 @@ namespace BookingHotelRooms.Services.IServices
         Task<IEnumerable<IGrouping<string, Booking>>> GetAllBookingsAsync(HttpContext httpContext);
         Task<AppUser> GetContextUserAsync(HttpContext httpContext);
         Task AddBookingAsync(BookingDetailsViewModel booking, HttpContext context, string id);
-        Task UpdateBookingAsync(BookingResultViewModel booking);
+        Task UpdateBookingStatusAsync(BookingResultViewModel booking);
         Task RemoveBookingAsync(string id);
         Task<BookingResultViewModel> BookingResultAsync(string bookingId);
         Task<BookingDetailsViewModel> BookRoomAsync(int roomId);
-        Task ChangeRoomAvailabilityAsync(int roomId);
     }
 }

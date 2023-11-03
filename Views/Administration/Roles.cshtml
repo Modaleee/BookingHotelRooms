@@ -18,6 +18,7 @@
             <div class="card-footer">
                 <a asp-action="UsersInRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-outline-dark">See Users</a>
                 <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-outline-dark">Edit Role</a>
+                <a asp-action="DeleteRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-outline-danger float-right">Delete</a>
             </div>
         </div>
     </div>

@@ -19,15 +19,10 @@
         <input asp-for="Price" class="form-control"/>
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
-    <div class="mb-3">
-        <label asp-for="IsAvailable"> Available: </label>
-        <input asp-for="IsAvailable" />
-        <span asp-validation-for="IsAvailable" class="text-danger"></span>
-    </div>
     <div>
         <button type="submit" class="btn btn-outline-dark">Update</button>
-        <a asp-controller="Rooms" asp-action="Index" class="btn btn-danger">Cancel</a>
-        <button type="submit" asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.RoomId" class="btn btn-dark"> Delete</button>
+        <a asp-controller="Rooms" asp-action="Index" class="btn btn-outline-danger">Cancel</a>
+        <button type="submit" asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.RoomId" class="btn btn-dark float-lg-right"> Delete</button>
     </div>
 </form>
 

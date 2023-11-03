@@ -60,8 +60,8 @@ namespace BookingHotelRooms.Services
                 Room = room,
                 RoomId = booking.RoomId,
                 BookingId = id,
-                CheckIn = booking.CheckIn,
-                CheckOut = booking.CheckOut,
+                CheckIn = booking.CheckIn.ToLocalTime(),
+                CheckOut = booking.CheckOut.ToLocalTime(),
                 OrderDate = DateTime.Now,
                 TotalPrice = days * room.Price,
                 ApplicationUser = user,
@@ -71,13 +71,12 @@ namespace BookingHotelRooms.Services
             await _bookingRepository.CreateEntity(model);
         }
 
-        public async Task UpdateBookingAsync(BookingResultViewModel bookingResult)
+        public async Task UpdateBookingStatusAsync(BookingResultViewModel bookingResult)
         {
             var booking = await FindBookingAsync(bookingResult.BookingId);
             booking.BookingStatus = Status.Completed;
 
             await _bookingRepository.UpdateEntity(booking);
-            await ChangeRoomAvailabilityAsync(booking.RoomId);
         }
 
 
@@ -105,25 +104,30 @@ namespace BookingHotelRooms.Services
         public async Task<BookingDetailsViewModel> BookRoomAsync(int roomId)
         {
             var room = await _roomRepository.GetRoomById(roomId);
+
             var model = new BookingDetailsViewModel
             {
                 RoomId = room.RoomId,
                 RoomNumber = room.RoomNumber,
-                IsAvailable = room.IsAvailable,
                 Description = room.Description,
                 Price = room.Price,
                 CheckIn = DateTime.Today,
                 CheckOut = DateTime.Today,
             };
+
+            var bookings = await _bookingRepository.GetAllBookings();
+            var roomBookings = bookings.Where(x => x.RoomId == roomId);
+
+            foreach (var item in roomBookings)
+            {
+                model.RoomBookings.Add(new DateInterval() {
+                    From = item.CheckIn, 
+                    To = item.CheckOut
+                });
+            }
+
             return model;
         }
 
-        public async Task ChangeRoomAvailabilityAsync(int roomId)
-        {
-            var room = await _roomRepository.GetRoomById(roomId);
-
-            room.IsAvailable = false;
-            await _roomRepository.UpdateEntity(room);
-        }
     }
 }

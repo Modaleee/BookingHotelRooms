@@ -17,6 +17,5 @@ namespace BookingHotelRooms.Models.ViewModels
 
         [Required, DataType(DataType.Currency), Range(1, Int32.MaxValue, ErrorMessage = "The price can`t be a negative number!")]
         public decimal Price { get; set; }
-        public bool IsAvailable { get; set; }
     }
 }

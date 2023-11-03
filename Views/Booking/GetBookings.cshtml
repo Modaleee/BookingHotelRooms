@@ -13,7 +13,7 @@
             }
             else
             {
-                 <h1 class="offset-5">Your Orders</h1>
+                <h1 class="offset-5">Your Orders</h1>
             }
 
             @foreach (var booking in key)
@@ -25,19 +25,23 @@
                             <label><b>Booking ID:</b> @booking.BookingId</label>
                         </div>
                         <div class="card-body" style="display:inline-flex">
-                            <img src="~/images/pexels-pixabay-164595.jpg" />
-                            <div class="ml-3">
-                                <p>
-                                    <b>Room Number:</b> @booking.Room.RoomNumber
-                                <p>
-                                    <b>From:</b> @booking.CheckIn
-                                </p>
-                                <p>
-                                    <b>To:</b> @booking.CheckOut
-                                </p>
-                                <p>
-                                    <b>Total Price:</b> @booking.TotalPrice
-                                </p>
+                            <div class="row">
+                                <div class="col-7">
+                                    <img class="card-img" src="~/images/pexels-pixabay-164595.jpg" />
+                                </div>
+                                <div class="col-5">
+                                    <p>
+                                        <b>Room Number:</b> @booking.Room.RoomNumber
+                                    <p>
+                                        <b>From:</b> @booking.CheckIn
+                                    </p>
+                                    <p>
+                                        <b>To:</b> @booking.CheckOut
+                                    </p>
+                                    <p>
+                                        <b>Total Price:</b> @booking.TotalPrice$
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">

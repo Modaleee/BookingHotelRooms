@@ -7,11 +7,11 @@
 }
 
 <form method="post">
-    <div class="row">
+    <div class="row" style="justify-items:center">
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <img src="~/images/pexels-pixabay-164595.jpg" />
+                    <img class="card-img" src="~/images/pexels-pixabay-164595.jpg" />
                 </div>
                 <div class="card-footer">
                     <div style="display:inline-flex">
@@ -27,32 +27,11 @@
             </div>
         </div>
         <div class="col-6 offset-2">
-    @*         <div class="mb-3">
-                <label asp-for="CheckIn"> From: </label>
-                <input asp-for="CheckIn" class="form-control" />
-                <span asp-validation-for="CheckIn" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="CheckOut"> To: </label>
-                <input asp-for="CheckOut" class="form-control" />
-                <span asp-validation-for="CheckOut" class="text-danger"></span>
-            </div> *@
-
-            <input asp-for="CheckIn" type="hidden"/>
+            <input asp-for="CheckIn" type="hidden" />
             <input asp-for="CheckOut" type="hidden" />
+            <input class="flatpickr flatpickr-input active form-control" type="text" placeholder="Select Date.." readonly="readonly">
+            <button type="submit" class="btn btn-outline-success mt-3">Proceed</button>
             <div asp-validation-summary="All" class="text-danger"></div>
-
-
-            @if (Model.IsAvailable)
-            {
-                <input type="hidden" asp-for="IsAvailable" />
-                <button type="submit" class="btn btn-outline-success">Proceed</button>
-
-            }
-            else
-            {
-                <h4 style="color:crimson">This room is currently not available.</h4>
-            }
         </div>
     </div>
     <div>
@@ -63,16 +42,17 @@
 </form>
 
 
-<input class="flatpickr flatpickr-input active" type="text" placeholder="Select Date.." readonly="readonly">
 
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   
     <script>
-        var disabledDates = @Html.Raw(Json.Serialize(Model.MyBookings));
+        var disabledDates = @Html.Raw(Json.Serialize(Model.RoomBookings));
         $(document).ready(function () {
             $('.flatpickr').flatpickr({
-                dateFormat: "Y-m-d",
+                dateFormat: "Y-m-d K",
+                timezone: "Europe/London",
+                minDate: "today",
                 disable: disabledDates, // Pass the list of disabled dates
                 mode: "range",
                 onChange: function (selectedDates, dateStr, instance) {
