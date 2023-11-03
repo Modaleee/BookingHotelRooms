@@ -22,7 +22,8 @@
     <div>
         <button type="submit" class="btn btn-outline-dark">Update</button>
         <a asp-controller="Rooms" asp-action="Index" class="btn btn-outline-danger">Cancel</a>
-        <button type="submit" asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.RoomId" class="btn btn-dark float-lg-right"> Delete</button>
+        <button type="submit" asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.RoomId" class="btn btn-dark float-lg-right"
+                onclick="return confirm('Are you sure you want to delete this item?');"> Delete</button>
     </div>
 </form>
 

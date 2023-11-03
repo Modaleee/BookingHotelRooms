@@ -158,6 +158,21 @@ namespace BookingHotelRooms.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            var result = await roleManager.DeleteAsync(role);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Roles", "administration");
+            }
+
+            return View();
+        }
+
         private IEnumerable<SelectListItem> GetRolesAsSelectedList()
         {
             var roles = roleManager.Roles
