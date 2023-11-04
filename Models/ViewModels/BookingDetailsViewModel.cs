@@ -9,11 +9,6 @@ namespace BookingHotelRooms.Models.ViewModels
     public class BookingDetailsViewModel
     {
 
-        public BookingDetailsViewModel()
-        {
-            RoomBookings = new List<DateInterval>();
-        }
-
         public List<DateInterval> RoomBookings { get; set; }
         public int RoomId { get; set; }
         public int RoomNumber { get; set; }
