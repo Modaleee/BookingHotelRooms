@@ -13,14 +13,12 @@ namespace BookingHotelRooms.Controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.roleManager = roleManager;
         }
 
 

@@ -37,20 +37,26 @@
     <div>
         <p style="font-size:larger">
             <b>Description: </b> @Model.Description
+            <input type="hidden" asp-for="Description" />
         </p>
     </div>
+    @for (int i = 0; i < Model.RoomBookings.Count; i++)
+    {
+        <input asp-for="RoomBookings[i].From" type="hidden" />
+        <input asp-for="RoomBookings[i].To" type="hidden" />
+    }
 </form>
-
 
 
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  
+
     <script>
         var disabledDates = @Html.Raw(Json.Serialize(Model.RoomBookings));
         $(document).ready(function () {
+
             $('.flatpickr').flatpickr({
-                dateFormat: "Y-m-d K",
+                dateFormat: "Y-m-d",
                 timezone: "Europe/London",
                 minDate: "today",
                 disable: disabledDates, // Pass the list of disabled dates
@@ -65,7 +71,7 @@
             });
         });
     </script>
-    
+
 
     @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
 }
